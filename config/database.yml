@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: rss2webhook_development
+  pool: 5
+  username: rss2webhook
+  password: forme
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: rss2webhook_test
+  pool: 5
+  username: rss2webhook
+  password: forme
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: rss2webhook_production
+  pool: 5
+  username: rss2webhook
+  password: forme
