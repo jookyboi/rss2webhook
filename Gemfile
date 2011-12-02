@@ -4,6 +4,10 @@ gem 'rails', '3.1.0'
 
 # Infrastructure
 gem 'pg'
+gem 'delayed_job'
+gem 'mongo_mapper'
+gem 'bson_ext'
+gem 'rest-client'
 
 # Gems used only for assets and not required
 # in production environments by default.

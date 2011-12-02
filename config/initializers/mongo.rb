@@ -1,0 +1,1 @@
+MongoMapper.database = "rss2webhook_#{Rails.env}"
