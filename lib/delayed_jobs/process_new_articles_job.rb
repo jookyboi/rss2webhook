@@ -23,7 +23,8 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
       unless feed_articles.where(:link => item_hash['link']).any?
 
         if !first_fetch || (first_fetch && settings['process_on_start'])
-          post_to_webhook(item_hash.to_json, rss_feed['webhook'])
+          puts item_hash.to_json
+          post_to_webhook(item_hash.to_json, rss_feed)
         end
 
         # assume that items with different URLs are different
@@ -36,9 +37,9 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     schedule_next(settings['check_interval'])
   end
 
-  def post_to_webhook(item_json, webhook_url)
+  def post_to_webhook(item_json, rss_feed)
     begin
-      response = RestClient.post webhook_url, :article => item_json
+      response = RestClient.post rss_feed['webhook'], :article => item_json
     rescue => e
       e.response
     end

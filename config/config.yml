@@ -7,7 +7,7 @@ development:
   rss_feeds:
     -
       url: http://localhost:3011/rss
-      webhook: http://localhost:3000/hook
+      webhook: http://localhost:3011/hook
       output:
         - title
         - link
@@ -15,5 +15,5 @@ development:
         - pubDate
     -
       url: http://news.yahoo.com/rss/us
-      webhook: http://localhost:3000/get_hook
+      webhook: http://localhost:3011/get_hook
       type: get
