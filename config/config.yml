@@ -9,10 +9,12 @@ development:
       url: http://localhost:3011/rss
       webhook: http://localhost:3011/hook
       output:
-        - title
-        - link
-        - description
-        - pubDate
+        room_id: 34343
+        from: TMZ
+        message: Body: #{title}
+        color: green
+        format: json
+        
     -
       url: http://news.yahoo.com/rss/us
       webhook: http://localhost:3011/get_hook
