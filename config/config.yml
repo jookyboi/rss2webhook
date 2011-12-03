@@ -1,6 +1,8 @@
 development:
   settings:
     type: post
+    process_on_start: false
+    check_interval: 1 # in minutes
 
   rss_feeds:
     -
