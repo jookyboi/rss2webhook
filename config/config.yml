@@ -2,11 +2,11 @@ development:
   settings:
     type: post
     process_on_start: false
-    check_interval: 1 # in minutes
+    check_interval: 30 # in seconds
 
   rss_feeds:
     -
-      url: http://www.tmz.com/rss.xml
+      url: http://localhost:3011/rss
       webhook: http://localhost:3000/hook
       output:
         - title
