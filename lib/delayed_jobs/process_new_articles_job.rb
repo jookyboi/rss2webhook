@@ -1,10 +1,10 @@
 require 'rss/2.0'
 
-class ProcessNewArticlesJob < Struct.new(:rss_feed_url)
+class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
   def perform
     content = ''
 
-    open(rss_feed_url) do |s|
+    open(rss_feed['url']) do |s|
       content = s.read
     end
 

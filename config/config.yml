@@ -1,5 +1,17 @@
 development:
+  settings:
+    type: post
 
-test:
-
-production:
+  rss_feeds:
+    -
+      url: http://www.tmz.com/rss.xml
+      webhook: http://localhost:3000/hook
+      output:
+        - title
+        - link
+        - description
+        - pubDate
+    -
+      url: http://news.yahoo.com/rss/us
+      webhook: http://localhost:3000/get_hook
+      type: get
