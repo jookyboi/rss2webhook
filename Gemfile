@@ -24,6 +24,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'foreman'
   gem 'heroku'
+  gem 'thin'
 end
 
 group :test do
