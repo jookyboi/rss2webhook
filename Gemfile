@@ -8,6 +8,7 @@ gem 'delayed_job'
 gem 'mongo_mapper'
 gem 'bson_ext'
 gem 'rest-client'
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -24,7 +25,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'foreman'
   gem 'heroku'
-  gem 'thin'
 end
 
 group :test do
