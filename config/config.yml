@@ -2,7 +2,7 @@ development:
   settings:
     type: post
     process_on_start: false
-    check_interval: 30 # in seconds
+    check_interval: 10 # in seconds
 
   rss_feeds:
     -
@@ -11,7 +11,7 @@ development:
       output:
         room_id: 34343
         from: TMZ
-        message: Body: #{title}
+        message: Body is {title}
         color: green
         format: json
         
@@ -19,3 +19,8 @@ development:
       url: http://news.yahoo.com/rss/us
       webhook: http://localhost:3011/get_hook
       type: get
+      output:
+        article:
+          from: Yahoo! News
+          title: {title}
+          link: {link}

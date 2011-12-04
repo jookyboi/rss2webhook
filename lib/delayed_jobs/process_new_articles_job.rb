@@ -16,33 +16,66 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
     # insert unique items into mongo
     feed.items.each do |item|
-      
+
       item_hash = Hash.from_xml(item.to_s)['item']
       item_hash['feed_url'] = feed.channel.link
 
       unless feed_articles.where(:link => item_hash['link']).any?
 
         if !first_fetch || (first_fetch && settings['process_on_start'])
-          puts item_hash.to_json
-          post_to_webhook(item_hash.to_json, rss_feed)
+          post_to_webhook(item_hash, rss_feed)
         end
 
         # assume that items with different URLs are different
         article = Article.new(item_hash)
         article.save!
       end
-      
+
     end
 
     schedule_next(settings['check_interval'])
   end
 
-  def post_to_webhook(item_json, rss_feed)
+  private
+
+  def post_to_webhook(article, rss_feed)
+    webhook = rss_feed['webhook']
+    output_settings = rss_feed['output']
+    output_hash = Hash.new
+
+    if output_settings
+      output_hash = interpolate_output_with_values(output_settings, article)
+      puts output_hash
+    else
+      output_hash['article'] = article.to_json
+    end
+
     begin
-      response = RestClient.post rss_feed['webhook'], :article => item_json
+      RestClient.post webhook, output_hash
     rescue => e
       e.response
     end
+  end
+
+  def interpolate_output_with_values(output_settings, article)
+    output_settings.each do |k, v|
+      if v.is_a? Array
+        v.each do |elm|
+          interpolate_output_with_values(elm, article)
+        end
+      else
+        if v.is_a? String
+          regex = /{([A-Za-z0-9_]+)\}/i
+          matches = regex.match v
+
+          if matches
+            output_settings[k] = v.gsub regex, "#{article[matches[1]]}"
+          end
+        end
+      end
+    end
+
+    output_settings
   end
 
   def schedule_next(check_interval)
