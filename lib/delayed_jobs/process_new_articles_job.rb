@@ -46,7 +46,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     if output_settings
       # replace any placeholders
       output_hash = interpolate_output_with_values(output_settings, article)
-      puts output_hash
     else
       output_hash['article'] = article.to_json
     end
@@ -79,7 +78,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
           if matches
             node[k] = v.gsub regex, "#{article[matches[1]]}"
-            puts node[k]
           end
         end
       end
