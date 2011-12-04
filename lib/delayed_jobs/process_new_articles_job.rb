@@ -23,7 +23,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
       unless feed_articles.where(:link => item_hash['link']).any?
 
         if !first_fetch || (first_fetch && settings['process_on_start'])
-          post_to_webhook(item_hash, rss_feed)
+          make_request(item_hash, rss_feed)
         end
 
         # assume that items with different URLs are different
@@ -38,44 +38,54 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
   private
 
-  def post_to_webhook(article, rss_feed)
+  def make_request(article, rss_feed)
     webhook = rss_feed['webhook']
     output_settings = rss_feed['output']
     output_hash = Hash.new
 
     if output_settings
+      # replace any placeholders
       output_hash = interpolate_output_with_values(output_settings, article)
       puts output_hash
     else
       output_hash['article'] = article.to_json
     end
 
+    # post/get the request
+    request_type = rss_feed['type']
     begin
-      RestClient.post webhook, output_hash
+      if request_type
+        if request_type == 'get'
+          RestClient.get webhook, output_hash
+        else
+          RestClient.post webhook, output_hash
+        end
+      else
+        RestClient.post webhook, output_hash
+      end
     rescue => e
       e.response
     end
   end
 
-  def interpolate_output_with_values(output_settings, article)
-    output_settings.each do |k, v|
-      if v.is_a? Array
-        v.each do |elm|
-          interpolate_output_with_values(elm, article)
-        end
+  def interpolate_output_with_values(node, article)
+    node.each do |k, v|
+      if v.is_a? Hash
+        interpolate_output_with_values(v, article)
       else
         if v.is_a? String
-          regex = /{([A-Za-z0-9_]+)\}/i
+          regex = /\{([A-Za-z0-9_]+)\}/i
           matches = regex.match v
 
           if matches
-            output_settings[k] = v.gsub regex, "#{article[matches[1]]}"
+            node[k] = v.gsub regex, "#{article[matches[1]]}"
+            puts node[k]
           end
         end
       end
     end
 
-    output_settings
+    node
   end
 
   def schedule_next(check_interval)
