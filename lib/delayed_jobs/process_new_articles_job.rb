@@ -28,7 +28,8 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
       item_hash = Hash.from_xml(item.to_s)['item']
       item_hash['feed_url'] = feed.channel.link
 
-      unless feed_articles.where(:link => item_hash['link']).any?
+      # collection could change in the loop
+      unless Article.where(:feed_url => feed.channel.link, :link => item_hash['link']).any?
 
         if !first_fetch || (first_fetch && settings['process_on_start'])
           call_webhook(item_hash, rss_feed)
@@ -38,7 +39,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
         article = Article.new(item_hash)
         article.save!
       end
-
     end
 
     schedule_next(settings['check_interval'])
