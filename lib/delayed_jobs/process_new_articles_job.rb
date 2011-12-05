@@ -118,6 +118,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
   end
 
   def schedule_next(check_interval)
-    Delayed::Job.enqueue self, 0, Time.now + check_interval
+    Delayed::Job.enqueue ProcessNewArticlesJob.new(rss_feed, settings), 0, Time.now +check_interval
   end
 end
