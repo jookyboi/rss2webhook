@@ -6,7 +6,14 @@ development:
 
   rss_feeds:
     -
-      url: http://localhost:3011/rss
+      connection:
+        host: secure3.silverorange.com
+        ssl: true
+        resource: /rsstest/httpauth/rss_with_ssl_and_auth.xml
+        auth:
+          username: testuser
+          password: testpass
+
       webhook: http://localhost:3011/hook
       output:
         room_id: 34343
@@ -16,7 +23,7 @@ development:
         format: json
         
     -
-      url: http://news.yahoo.com/rss/us
+      connection: http://news.yahoo.com/rss/us
       webhook: http://localhost:3011/get_hook
       type: get
       output:

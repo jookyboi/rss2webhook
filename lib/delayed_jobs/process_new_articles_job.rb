@@ -1,13 +1,22 @@
 require 'rss/2.0'
+require 'net/https'
 
 class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
   def perform
     content = ''
 
-    open(rss_feed['url']) do |s|
-      content = s.read
+    # support basic auth over ssl
+    connection = rss_feed['connection']
+
+    if connection['auth']
+      content = fetch_rss_over_auth(rss_feed)
+    else
+      open(rss_feed['connection']) do |s|
+        content = s.read
+      end
     end
 
+    # parse
     feed = RSS::Parser.parse(content, false)
 
     # all articles previously fetched
@@ -17,13 +26,15 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     # insert unique items into mongo
     feed.items.each do |item|
 
+      puts item
+
       item_hash = Hash.from_xml(item.to_s)['item']
       item_hash['feed_url'] = feed.channel.link
 
       unless feed_articles.where(:link => item_hash['link']).any?
 
         if !first_fetch || (first_fetch && settings['process_on_start'])
-          make_request(item_hash, rss_feed)
+          call_webhook(item_hash, rss_feed)
         end
 
         # assume that items with different URLs are different
@@ -38,7 +49,32 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
   private
 
-  def make_request(article, rss_feed)
+  def fetch_rss_over_auth(rss_feed)
+    connection = rss_feed['connection']
+    port = 80
+
+    if connection['ssl']
+      port = 443
+    end
+
+    content = href = ''
+    begin
+      http = Net::HTTP.new(connection['host'], port)
+      http.use_ssl = connection['ssl']
+
+      http.start do |http|
+        req = Net::HTTP::Get.new(connection['resource'])
+        req.basic_auth(connection['auth']['username'], connection['auth']['password'])
+
+        response = http.request(req)
+        content = response.body
+      end
+    end
+
+    content
+  end
+
+  def call_webhook(article, rss_feed)
     webhook = rss_feed['webhook']
     output_settings = rss_feed['output']
     output_hash = Hash.new
