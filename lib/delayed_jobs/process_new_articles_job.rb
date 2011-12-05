@@ -71,16 +71,16 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     content
   end
 
-  def call_webhook(article, rss_feed)
+  def call_webhook(article_hash, rss_feed)
     webhook = rss_feed['webhook']
     output_settings = rss_feed['output']
     output_hash = Hash.new
 
     if output_settings
       # replace any placeholders
-      output_hash = interpolate_output_with_values(output_settings, article)
+      output_hash = interpolate_output_with_values(output_settings, article_hash)
     else
-      output_hash['article'] = article.to_json
+      output_hash['article'] = article_hash.to_json
     end
 
     # post/get the request
@@ -96,10 +96,10 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     end
   end
 
-  def interpolate_output_with_values(node, article)
+  def interpolate_output_with_values(node, article_hash)
     node.each do |k, v|
       if v.is_a? Hash
-        interpolate_output_with_values(v, article)
+        interpolate_output_with_values(v, article_hash)
       else
         if v.is_a? String
           regex = /\|([A-Za-z0-9_]+)\|/i
@@ -107,7 +107,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
           if matches
             node[k] = v.gsub(regex) do |s|
-              eval "article['#{$1}']"
+              eval "article_hash['#{$1}']"
             end
           end
         end
