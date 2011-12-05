@@ -102,7 +102,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
         interpolate_output_with_values(v, article)
       else
         if v.is_a? String
-          regex = /<([A-Za-z0-9_]+)>/i
+          regex = /\|([A-Za-z0-9_]+)\|/i
           matches = regex.match v
 
           if matches

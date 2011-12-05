@@ -18,7 +18,7 @@ development:
       output:
         room_id: 34343
         from: TMZ
-        message: Body is <title>
+        message: Body is |title|
         color: green
         format: json
         
@@ -29,5 +29,5 @@ development:
       output:
         article:
           from: Yahoo! News
-          title: <title>
-          link: <link>
+          title: |title|
+          link: |link|
