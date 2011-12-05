@@ -25,9 +25,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
     # insert unique items into mongo
     feed.items.each do |item|
-
-      puts item
-
       item_hash = Hash.from_xml(item.to_s)['item']
       item_hash['feed_url'] = feed.channel.link
 
