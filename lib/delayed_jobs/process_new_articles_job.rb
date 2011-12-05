@@ -78,7 +78,8 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
     if output_settings
       # replace any placeholders
-      output_hash = interpolate_output_with_values(output_settings, article_hash)
+      interpolate_output_with_values(output_settings, article_hash)
+      output_hash = output_settings
     else
       output_hash['article'] = article_hash.to_json
     end
@@ -113,8 +114,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
         end
       end
     end
-
-    node
   end
 
   def schedule_next(check_interval)
