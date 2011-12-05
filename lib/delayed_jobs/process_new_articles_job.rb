@@ -106,7 +106,9 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
           matches = regex.match v
 
           if matches
-            node[k] = v.gsub regex, "#{article[matches[1]]}"
+            node[k] = v.gsub(regex) do |s|
+              eval "article['#{$1}']"
+            end
           end
         end
       end
