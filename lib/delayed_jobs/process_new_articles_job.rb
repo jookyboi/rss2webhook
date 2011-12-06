@@ -73,7 +73,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
   def call_webhook(article_hash, rss_feed)
     webhook = rss_feed['webhook']
-    output_settings = rss_feed['output']
+    output_settings = rss_feed['output'].clone # don't change the original
     output_hash = Hash.new
 
     if output_settings
@@ -117,6 +117,6 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
   end
 
   def schedule_next(check_interval)
-    Delayed::Job.enqueue ProcessNewArticlesJob.new(rss_feed, settings), 0, Time.now +check_interval
+    Delayed::Job.enqueue self, 0, Time.now + check_interval
   end
 end
