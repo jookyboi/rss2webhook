@@ -1,5 +1,5 @@
 desc 'Start processing new rss feed articles'
-task :start_processing_articles => :environment do
+task :start_processing => :environment do
   config = RSS_CONFIG
   feeds = config['rss_feeds']
 
