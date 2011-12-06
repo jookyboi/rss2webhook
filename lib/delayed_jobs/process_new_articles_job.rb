@@ -73,7 +73,12 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
 
   def call_webhook(article_hash, rss_feed)
     webhook = rss_feed['webhook']
-    output_settings = rss_feed['output'].clone # don't change the original
+    output_settings = nil
+
+    if rss_feed['output']
+      output_settings = rss_feed['output'].clone # don't change the original
+    end
+
     output_hash = Hash.new
 
     if output_settings

@@ -46,6 +46,7 @@ test:
     -
       connection: https://secure3.silverorange.com/rsstest/rss_with_ssl.xml
       webhook: http://jsfiddle.net/echo/json
+      type: get
 
     -
       connection:
@@ -56,6 +57,10 @@ test:
           username: testuser
           password: testpass
       webhook: http://jsfiddle.net/echo/json
+      output:
+        article:
+          title: My title is |title| from |link| with |description|
+          link: |link|
 
     -
       connection:
