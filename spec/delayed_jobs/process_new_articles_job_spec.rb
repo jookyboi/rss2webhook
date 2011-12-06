@@ -9,13 +9,13 @@ describe ProcessNewArticlesJob do
     Delayed::Job.all.each do |job|
       job.delete
     end
+
+    @config = RSS_CONFIG
+    @feeds = @config['rss_feeds']
   end
 
   it 'should process simple unauthenticated rss' do
-    config = RSS_CONFIG
-    feeds = config['rss_feeds']
-
-    enqueue_process(feeds[0], config['settings'])
+    enqueue_process(@feeds[0], @config['settings'])
     work_off
 
     item = Article.where(:link => 'http://labs.silverorange.com/archives/2003/june/canyousaythat')
@@ -28,12 +28,51 @@ describe ProcessNewArticlesJob do
     article.description.should_not be ""
 
     article.title.should_not be(nil)
-    article.link.should match('http://labs.silverorange.com/archives/2003/june/canyousaythat')
+    article.link.should match 'http://labs.silverorange.com/archives/2003/june/canyousaythat'
     article.guid.should_not be(nil)
     article.comments.should_not be(nil)
 
     Article.all.size.should be(6)
   end
+
+  it 'should process rss over https' do
+    enqueue_process(@feeds[1], @config['settings'])
+    work_off
+
+    Article.all.size.should be(6)
+  end
+
+  it 'should process authenticated rss over http' do
+    enqueue_process(@feeds[2], @config['settings'])
+    work_off
+
+    Article.all.size.should be(6)
+
+    item = Article.where(:link => 'http://labs.silverorange.com/archives/2003/june/introducingthe').first
+    item.title.should match 'Introducing the silverorange Labs weblog'
+  end
+
+  it 'should process authenticated rss over https' do
+    enqueue_process(@feeds[3], @config['settings'])
+    work_off
+
+    Article.all.size.should be(6)
+  end
+
+  it 'should not process incorrect auth over https' do
+    enqueue_process(@feeds[4], @config['settings'])
+    work_off
+
+    Article.all.size.should be(0)
+  end
+
+  it 'should not process authenticated ssl over http' do
+    enqueue_process(@feeds[5], @config['settings'])
+    work_off
+
+    Article.all.size.should be(0)
+  end
+
 end
 
 private

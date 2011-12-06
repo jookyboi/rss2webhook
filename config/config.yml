@@ -42,3 +42,48 @@ test:
     -
       connection: http://labs.silverorange.com/local/solabs/rsstest/rss_plain.xml
       webhook: http://jsfiddle.net/echo/json
+
+    -
+      connection: https://secure3.silverorange.com/rsstest/rss_with_ssl.xml
+      webhook: http://jsfiddle.net/echo/json
+
+    -
+      connection:
+        host: labs.silverorange.com
+        ssl: false
+        resource: /local/solabs/rsstest/httpauth/rss_with_auth.xml
+        auth:
+          username: testuser
+          password: testpass
+      webhook: http://jsfiddle.net/echo/json
+
+    -
+      connection:
+        host: labs.silverorange.com
+        ssl: true
+        resource: /rsstest/httpauth/rss_with_ssl_and_auth.xml
+        auth:
+          username: testuser
+          password: testpass
+      webhook: http://jsfiddle.net/echo/json
+
+    -
+      connection:
+        host: labs.silverorange.com
+        ssl: true
+        resource: /rsstest/httpauth/rss_with_ssl_and_auth.xml
+        auth:
+          username: testuser
+          password: nonsense
+      webhook: http://jsfiddle.net/echo/json
+
+    -
+      connection:
+        host: labs.silverorange.com
+        ssl: false
+        resource: /rsstest/httpauth/rss_with_ssl_and_auth.xml
+        auth:
+          username: testuser
+          password: testpass
+      webhook: http://jsfiddle.net/echo/json
+      
