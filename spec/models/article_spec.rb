@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Article do
+  before(:each) do
+    Article.all.each do |a|
+      a.delete
+    end
+  end
+
   it 'should let a valid article be saved' do
     article = Article.new(
         {

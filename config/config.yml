@@ -31,3 +31,14 @@ development:
           from: Yahoo! News
           title: |title|
           link: |link|
+
+test:
+  settings:
+    type: post
+    process_on_start: false
+    check_interval: 10 # in seconds
+
+  rss_feeds:
+    -
+      connection: http://labs.silverorange.com/local/solabs/rsstest/rss_plain.xml
+      webhook: http://jsfiddle.net/echo/json
