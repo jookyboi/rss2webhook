@@ -129,9 +129,7 @@ describe ProcessNewArticlesJob do
       Article.where(:link => link).any?.should be(true)
       Article.all.size.should be(6)
     end
-
   end
-
 
 end
 
