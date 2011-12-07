@@ -18,19 +18,23 @@ deploy on any server with a SQL-DB backing and MongoDB support.
 
 Below are instructions for deploying rss2webhook on Heroku.
 
-### Step 1: Clone this repo
+### Clone this repo
 
     git clone git@github.com:jookyboi/rss2webhook.git
 
-### Step 2: Bundle the gems
+### Bundle the gems
 
     bundle install
 
-### Step 3: Configure the Postgres database
+### Migrate database
+
+    rake db:migrate
+
+### Configure the Postgres database
 
 All database configuration is in ``database.yml``. Change it to suit your environment.
 
-### Step 4: Configure MongoMapper
+### Configure MongoMapper
 
 rss2webhook uses MongoMapper as an adapter for MongoDB. If you are testing the app out
 in your local environment and you already have MongoDB running, the first condition
@@ -41,20 +45,24 @@ or [MongoHQ](http://addons.heroku.com/mongohq) account. (I personally use MongoL
 free plan comes with a generous 240MB of space.) In ``mongo.rb``, uncomment one of the 2 configuration
 lines to work with your MongoDB provider.
 
-    MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOLAB_URI']} }
+```ruby
+MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOLAB_URI']} }
+```
 
 or for MongoHQ:
 
-    MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOHQ_URL']} }
+```ruby
+MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOHQ_URL']} }
+```
 
-### Step 5: Configure your RSS feeds and webhooks
+### Configure your RSS feeds and webhooks
 
 Open up ``config/config.yml``, the central [YAML](http://www.yaml.org/) file for configuring
 rss2webhook.
 
-### Step 6: Test it out locally
+### Test it out locally
 
-### Step 7: Deploy on Heroku
+### Deploy on Heroku
 
 ## Configuration Examples
 
