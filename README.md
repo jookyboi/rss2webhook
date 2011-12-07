@@ -18,24 +18,24 @@ deploy on any server with a SQL-DB backing and MongoDB support.
 
 Below are instructions for deploying rss2webhook on Heroku.
 
-### Clone this repo
+### Step 1: Clone this repo
 
     git clone git://github.com/jookyboi/rss2webhook.git
 
-### Bundle the gems
+### Step 2: Bundle the gems
 
     bundle install
 
-### Configure the Postgres database
+### Step 3: Configure the Postgres database
 
 All database configuration is in ``config/database.yml``. Change it to suit your environment.
 
-### Create and Migrate database
+### Step 4: Create and Migrate database
 
     rake db:create
     rake db:migrate
 
-### Configure MongoMapper
+### Step 5: Configure MongoMapper
 
 rss2webhook uses MongoMapper as an adapter for MongoDB. If you are testing the app out
 in your local environment and you already have MongoDB running, the first condition
@@ -56,7 +56,7 @@ or for MongoHQ:
 MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOHQ_URL']} }
 ```
 
-### Configure your RSS feeds and webhooks
+### Step 6: Configure your RSS feeds and webhooks
 
 Open up ``config/config.yml``, the central [YAML](http://www.yaml.org/) file for configuring
 rss2webhook.
@@ -94,7 +94,7 @@ sending data to a HipChat room webhook ([message API](https://www.hipchat.com/do
 See the configuration examples below for info on dealing with basic authentication, SSL,
 and different output formats.
 
-### Test it out locally
+### Step 7: Test it out locally
 
 rss2webhook provides you with a few rake scripts to start, stop, and restart the RSS feed processing.
 Under the hood, they insert and delete delayed jobs.
@@ -110,7 +110,7 @@ to spin up a worker:
 
 Assuming things are working, you should see the DJ fire once every few seconds for each one of the configured feeds.
 
-### Deploy on Heroku
+### Step 8: Deploy on Heroku
 
 You are now ready to deploy on Heroku. Due to rss2webhook's reliance on a Procfile and Rails 3.1, it is
 recommended you use the [Cedar](http://devcenter.heroku.com/articles/cedar#using_cedar) stack.
