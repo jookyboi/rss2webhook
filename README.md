@@ -63,7 +63,7 @@ rss2webhook.
 You'll need to start by adding a section for ``production:`` and a few global settings:
 
 
-```
+```yaml
 production:
   settings:
     type: post  # either post or get
@@ -75,7 +75,7 @@ After that, you need to configure at least one RSS feed and its corresponding we
 an example for an unauthenticated RSS sample feed from [SilverOrange](http://labs.silverorange.com/archive/2003/july/privaterss)
 sending data to a HipChat room webhook ([message API](https://www.hipchat.com/docs/api/method/rooms/message)).
 
-```
+```yaml
   rss_feeds:
     -
       connection: http://labs.silverorange.com/local/solabs/rsstest/rss_plain.xml
