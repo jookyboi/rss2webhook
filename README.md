@@ -39,7 +39,8 @@ All database configuration is in ``config/database.yml``. Change it to suit your
 
 rss2webhook uses MongoMapper as an adapter for MongoDB. If you are testing the app out
 in your local environment and you already have MongoDB running, the first condition
-in ``config/initializers/mongo.rb`` should have you covered.
+in ``config/initializers/mongo.rb`` should have you covered. If you don't have MongoDB installed,
+download the appropriate distro [here](http://www.mongodb.org/downloads).
 
 If you are deploying to Heroku, you'll need to sign up for either a [MongoLab](http://addons.heroku.com/mongolab)
 or [MongoHQ](http://addons.heroku.com/mongohq) account after deploying. (I personally use MongoLab as their
