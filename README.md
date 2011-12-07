@@ -41,8 +41,8 @@ rss2webhook uses MongoMapper as an adapter for MongoDB. If you are testing the a
 in your local environment and you already have MongoDB running, the first condition
 in ``config/initializers/mongo.rb`` should have you covered.
 
-If you are deploying to Heroku, you'll need to first sign up for either a [MongoLab](http://addons.heroku.com/mongolab)
-or [MongoHQ](http://addons.heroku.com/mongohq) account. (I personally use MongoLab as their
+If you are deploying to Heroku, you'll need to sign up for either a [MongoLab](http://addons.heroku.com/mongolab)
+or [MongoHQ](http://addons.heroku.com/mongohq) account after deploying. (I personally use MongoLab as their
 free plan comes with a generous 240MB of space.) In ``mongo.rb``, uncomment one of the 2 configuration
 lines to work with your MongoDB provider.
 
@@ -108,9 +108,34 @@ to spin up a worker:
     foreman start worker
 
 Assuming things are working, you should see the DJ fire once every few seconds for each one of the configured feeds.
-    
 
 ### Deploy on Heroku
+
+You are now ready to deploy on Heroku. Due to rss2webhook's reliance on a Procfile and Rails 3.1, it is
+recommended you use the [Cedar](http://devcenter.heroku.com/articles/cedar#using_cedar) stack.
+
+In the project directory, type:
+
+    heroku create --stack cedar
+
+Next, migrate the database:
+
+    heroku run rake db:migrate
+
+You'll need an instance of a MongoDB running. I recommend MongoLab. Their starter plan is free:
+
+    heroku addons:add mongolab:starter
+
+Make sure you scale down the web worker (there is no frontend) and scale up the background worker:
+
+    heroku scale web=0
+    heroku scale worker=1
+
+Lastly, to kick everything off, run the rake task:
+
+    heroku run rake start_processing
+
+That's it! You should now have an instance of rss2webhook sending RSS articles to webhooks.
 
 ## Configuration Examples
 
