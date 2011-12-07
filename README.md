@@ -63,7 +63,7 @@ rss2webhook.
 You'll need to start by adding a section for ``production:`` and a few global settings:
 
 
-```yaml
+```
 production:
   settings:
     type: post  # either post or get
