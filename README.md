@@ -20,7 +20,9 @@ Below are instructions for deploying rss2webhook on Heroku.
 
 ### Clone this repo
 
-    git clone git@github.com:jookyboi/rss2webhook.git
+```shell
+git clone git@github.com:jookyboi/rss2webhook.git
+```
 
 ### Bundle the gems
 
