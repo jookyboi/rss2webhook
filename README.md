@@ -71,6 +71,27 @@ production:
     check_interval: 10  # check for feed updates every x seconds
 ```
 
+After that, you need to configure at least one RSS feed and its corresponding webhook. Here is
+an example for an unauthenticated RSS sample feed from [SilverOrange](http://labs.silverorange.com/archive/2003/july/privaterss)
+sending data to a HipChat room webhook ([message API](https://www.hipchat.com/docs/api/method/rooms/message)).
+
+```yaml
+  rss_feeds:
+    -
+      connection: http://labs.silverorange.com/local/solabs/rsstest/rss_plain.xml
+      webhook: https://api.hipchat.com/v1/rooms/message  # any web url
+      type: get  # can be get or post
+      output:
+        auth_token: 37b6805ad9ef28b523268053d5953c
+        room_id: 48856
+        from: |author|  # equivalent to rss_article['author']
+        message: |title| at |link|  # interpolated values of rss_article
+        format: json
+```
+
+See the configuration examples below for info on dealing with basic authentication, SSL,
+and different output formats.
+
 ### Test it out locally
 
 ### Deploy on Heroku
