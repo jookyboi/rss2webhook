@@ -26,8 +26,9 @@ Below are instructions for deploying rss2webhook on Heroku.
 
     bundle install
 
-### Migrate database
+### Create and Migrate database
 
+    rake db:create
     rake db:migrate
 
 ### Configure the Postgres database
@@ -93,6 +94,21 @@ See the configuration examples below for info on dealing with basic authenticati
 and different output formats.
 
 ### Test it out locally
+
+rss2webhook provides you with a few rake scripts to start, stop, and restart the RSS feed processing.
+Under the hood, they insert and delete delayed jobs.
+
+Assumbing your Mongo and DJ configuration is correct, you can insert the DJ for processing feeds with:
+
+    rake start_processing
+
+Next, use [Foreman](http://michaelvanrooijen.com/articles/2011/06/08-managing-and-monitoring-your-ruby-application-with-foreman-and-upstart/)
+to spin up a worker:
+
+    foreman start worker
+
+Assuming things are working, you should see the DJ fire once every few seconds for each one of the configured feeds.
+    
 
 ### Deploy on Heroku
 
