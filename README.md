@@ -20,9 +20,7 @@ Below are instructions for deploying rss2webhook on Heroku.
 
 ### Clone this repo
 
-```shell
-git clone git@github.com:jookyboi/rss2webhook.git
-```
+    git clone git@github.com:jookyboi/rss2webhook.git
 
 ### Bundle the gems
 
@@ -61,6 +59,17 @@ MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOHQ_URL']} }
 
 Open up ``config/config.yml``, the central [YAML](http://www.yaml.org/) file for configuring
 rss2webhook.
+
+You'll need to start by adding a section for ``production:`` and a few global settings:
+
+
+```yaml
+production:
+  settings:
+    type: post  # either post or get
+    process_on_start: false  # whether to send all the articles on first fetch of the feed
+    check_interval: 10  # check for feed updates every x seconds
+```
 
 ### Test it out locally
 
