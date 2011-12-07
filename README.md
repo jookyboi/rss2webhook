@@ -20,20 +20,20 @@ Below are instructions for deploying rss2webhook on Heroku.
 
 ### Clone this repo
 
-    git clone git@github.com:jookyboi/rss2webhook.git
+    git clone git://github.com/jookyboi/rss2webhook.git
 
 ### Bundle the gems
 
     bundle install
 
+### Configure the Postgres database
+
+All database configuration is in ``config/database.yml``. Change it to suit your environment.
+
 ### Create and Migrate database
 
     rake db:create
     rake db:migrate
-
-### Configure the Postgres database
-
-All database configuration is in ``database.yml``. Change it to suit your environment.
 
 ### Configure MongoMapper
 
@@ -61,8 +61,9 @@ MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOHQ_URL']} }
 Open up ``config/config.yml``, the central [YAML](http://www.yaml.org/) file for configuring
 rss2webhook.
 
-You'll need to start by adding a section for ``production:`` and a few global settings:
-
+You'll need to start by adding sections for ``development:`` and ``production:``. For each section,
+define a set of global settings. Below is an example of one section for ``production``. Be sure to
+do something similar for ``development`` so you can test locally.
 
 ```yaml
 production:
@@ -114,17 +115,25 @@ Assuming things are working, you should see the DJ fire once every few seconds f
 You are now ready to deploy on Heroku. Due to rss2webhook's reliance on a Procfile and Rails 3.1, it is
 recommended you use the [Cedar](http://devcenter.heroku.com/articles/cedar#using_cedar) stack.
 
+First, commit your changes:
+
+    git commit -am "Changed configuration for deployment"
+
 In the project directory, type:
 
     heroku create --stack cedar
 
-Next, migrate the database:
+Push your repo to Heroku:
 
-    heroku run rake db:migrate
+    git push heroku master
 
 You'll need an instance of a MongoDB running. I recommend MongoLab. Their starter plan is free:
 
     heroku addons:add mongolab:starter
+
+Next, migrate the database:
+
+    heroku run rake db:migrate
 
 Make sure you scale down the web worker (there is no frontend) and scale up the background worker:
 
@@ -134,6 +143,10 @@ Make sure you scale down the web worker (there is no frontend) and scale up the 
 Lastly, to kick everything off, run the rake task:
 
     heroku run rake start_processing
+
+Tail the logs just to make sure things are going as expected:
+
+    heroku logs --tail
 
 That's it! You should now have an instance of rss2webhook sending RSS articles to webhooks.
 

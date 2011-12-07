@@ -10,5 +10,5 @@ elsif Rails.env == 'production'
   # Example MongoHQ settings for Heroku
   #MongoMapper.config = { Rails.env => {'uri' => ENV['MONGOHQ_URL']} }
 
-  #MongoMapper.connect(Rails.env)
+  MongoMapper.connect(Rails.env)
 end
