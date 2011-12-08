@@ -10,6 +10,9 @@ $light_paper: #faf8eb;
 $dark_brown: #231f20;
 $red_orange: #f7481b;
 
+/* Fonts */
+$monospace: anonymous-pro, 'Courier New', monospace;
+
 html {
     height: 100%;
 }
@@ -51,8 +54,12 @@ p {
     margin-bottom: 15px;
 }
 
+code {
+    font-family: $monospace;
+}
+
 pre {
-    font-family: anonymous-pro, 'Courier New', monospace;
+    font-family: $monospace;
     background: $brown;
     color: $white;
     padding: 4px 8px;
@@ -113,12 +120,12 @@ section.page {
     div.content {
         background: url('/images/backgrounds/paper_bg.png');
         min-height: 300px;
-        font-family: adobe-text-pro, Georgia, serif;
+        font-family: ff-tisa-web-pro, Georgia, serif;
         color: $dark_brown;
 
         padding: 50px 0;
         font-size: 16px;
-        line-height: 22px;
+        line-height: 24px;
 
         a {
             color: $red_orange;
@@ -126,6 +133,10 @@ section.page {
 
         a:hover {
             color: $dark_brown;
+        }
+
+        p code {
+            font-size: 14px;
         }
     }
 
