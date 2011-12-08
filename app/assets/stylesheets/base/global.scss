@@ -1,0 +1,75 @@
+/* Make HTML 5 elements display block-level for consistent styling */
+header, nav, article, footer, address, section {
+    display: block;
+}
+
+/* colors */
+$white: white;
+$brown: #978e7f;
+$dark_brown: #231f20;
+
+html {
+    height: 100%;
+}
+
+body {
+    background: url('/images/backgrounds/page_bg.png') $brown;
+    font-family: 'Myriad Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    min-height: 100%;
+}
+
+header {
+    height: 117px;
+
+    div.left {
+        position: relative;
+
+        div#hook {
+            position: absolute;
+            background: url('/images/content/hook.png') no-repeat;
+            width: 59px;
+            height: 165px;
+
+            top: 0;
+            left: 0;
+        }
+
+        div#name {
+            position: absolute;
+            font-size: 45px;
+            color: $dark_brown;
+            font-weight: 300;
+            top: 45px;
+            left: 30px;
+
+            cursor: default;
+        }
+    }
+
+    div.right {
+        text-align: right;
+        font-size: 25px;
+        font-weight: 300;
+        color: $white;
+        padding-top: 62px;
+
+        cursor: default;
+    }
+}
+
+section.page {
+    div.top_pattern {
+        background: url('/images/backgrounds/paper_top.png') repeat-x;
+        height: 48px;
+    }
+
+    div.content {
+        background: url('/images/backgrounds/paper_bg.png');
+        min-height: 300px;
+    }
+
+    div.bottom_pattern {
+        background: url('/images/backgrounds/paper_bottom.png') repeat-x;
+        height: 46px;
+    }
+}
