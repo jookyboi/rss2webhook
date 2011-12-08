@@ -3,7 +3,7 @@ header, nav, article, footer, address, section {
     display: block;
 }
 
-/* colors */
+/* Colors */
 $white: white;
 $brown: #978e7f;
 $light_paper: #faf8eb;
@@ -64,6 +64,7 @@ pre {
     box-shadow: inset 0 1px 4px $dark_brown;
 }
 
+/* Page elements */
 header {
     height: 117px;
 
