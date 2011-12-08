@@ -140,8 +140,6 @@ footer {
     background: url('/images/backgrounds/soil.png') repeat-x 0% 100%;
 
     div.left {
-        position: relative;
-
         div#attrib {
             line-height: 200px;
             font-size: 15px;
@@ -156,17 +154,11 @@ footer {
             a:hover {
                 color: $light_paper;
             }
-        }
 
-        div#penguin_break {
-            position: absolute;
-
-            width: 21px;
-            height: 37px;
-            background: url('/images/icons/penguin.png') no-repeat;
-
-            top: 96px;
-            left: 275px;
+            img {
+                vertical-align: middle;
+                margin: 0 8px 0 9px;
+            }
         }
     }
 
