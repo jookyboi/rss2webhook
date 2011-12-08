@@ -17,8 +17,10 @@ group :assets do
   gem 'uglifier'
 end
 
-gem 'sass-rails', "  ~> 3.1.0"
+# Frontend
+gem 'sass-rails', "~> 3.1.0"
 gem 'jquery-rails'
+gem 'redcarpet'
 
 group :development, :test do
   gem 'annotate'
