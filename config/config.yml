@@ -41,11 +41,11 @@ test:
   rss_feeds:
     -
       connection: http://labs.silverorange.com/local/solabs/rsstest/rss_plain.xml
-      webhook: http://jsfiddle.net/echo/json
+      webhook: http://example.com/webhook/post
 
     -
       connection: https://secure3.silverorange.com/rsstest/rss_with_ssl.xml
-      webhook: http://jsfiddle.net/echo/json
+      webhook: http://example.com/webhook/get
       type: get
 
     -
@@ -56,7 +56,7 @@ test:
         auth:
           username: testuser
           password: testpass
-      webhook: http://jsfiddle.net/echo/json
+      webhook: http://example.com/webhook/post_article
       output:
         article:
           title: My title is |title| from |link| with |description|
@@ -70,7 +70,7 @@ test:
         auth:
           username: testuser
           password: testpass
-      webhook: http://jsfiddle.net/echo/json
+      webhook: http://example.com/webhook/post
 
     -
       connection:
@@ -80,7 +80,7 @@ test:
         auth:
           username: testuser
           password: nonsense
-      webhook: http://jsfiddle.net/echo/json
+      webhook: http://example.com/webhook/post
 
     -
       connection:
@@ -90,5 +90,5 @@ test:
         auth:
           username: testuser
           password: testpass
-      webhook: http://jsfiddle.net/echo/json
+      webhook: http://example.com/webhook/post
       

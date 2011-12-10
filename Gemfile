@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+source 'http://gemcutter.org'
 
 gem 'rails', '3.1.0'
 
@@ -33,4 +34,5 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'simplecov', :require => false
+  gem 'webmock'
 end
