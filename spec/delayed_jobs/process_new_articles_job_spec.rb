@@ -100,7 +100,9 @@ describe ProcessNewArticlesJob do
       Article.all.size.should be(6)
 
       WebMock.should have_requested(:get, 'labs.silverorange.com/local/solabs/rsstest/rss_plain.xml').twice
-      WebMock.should have_requested(:post, 'example.com/webhook/post')
+      WebMock.should have_requested(:post, 'example.com/webhook/post').with {
+        |req| req.body.include?('params[article]') && req.body.include?('introducingthe')
+      }
     end
 
     it 'should send correct article via get request' do
@@ -119,7 +121,9 @@ describe ProcessNewArticlesJob do
       Article.all.size.should be(6)
 
       WebMock.should have_requested(:get, 'https://secure3.silverorange.com/rsstest/rss_with_ssl.xml').twice
-      WebMock.should have_requested(:get, /.*example.com\/webhook\/get.*/)
+      WebMock.should have_requested(:get, /.*example.com\/webhook\/get.*/).with {
+        |req| req.uri.query.include?('photogallery')
+      }
     end
 
     it 'should send correct article with proper output' do
@@ -138,7 +142,9 @@ describe ProcessNewArticlesJob do
       Article.all.size.should be(6)
 
       WebMock.should have_requested(:get, 'http://testuser:testpass@labs.silverorange.com/local/solabs/rsstest/httpauth/rss_with_auth.xml').twice
-      WebMock.should have_requested(:post, 'example.com/webhook/post_article')
+      WebMock.should have_requested(:post, 'example.com/webhook/post_article').with {
+        |req| req.body.include?('params[article][title]') && req.body.include?('params[article][link]') && req.body.include?('photogallery')
+      }
     end
   end
 
