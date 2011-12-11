@@ -1,6 +1,5 @@
 development:
   settings:
-    type: post
     process_on_start: false
     check_interval: 10 # in seconds
 
@@ -34,7 +33,6 @@ development:
 
 test:
   settings:
-    type: post
     process_on_start: false
     check_interval: 10 # in seconds
 
