@@ -199,3 +199,14 @@ Below are a few typical configurations.
 ```
 
 ## Advanced Usage
+
+All the logic for rss2webhook can be found in the delayed job ``lib/delayed_jobs/process_new_articles_job.rb``.
+The ``perform`` method downloads the entire RSS feed and parses articles using the ``RSS::Parser`` lib. It then
+checks for new RSS items depending whether any of the newly fetched articles have urls which match articles
+already stored in MongoDB. If not, ``call_webhook`` is invoked for each of the new articles. If you have a need
+to use a different article field not officially specified in the RSS 2.0 standard (i.e. ``pubDate``), ``perform`` is the place
+to change it.
+
+rss2webhook performs very basic interpolation of RSS article fields in the output sent to webhooks. If
+for some reason the ``|`` pipe symbol is not working well for your content, the place to change it is in
+``interpolate_output_with_values``. Simply change the ``regex`` specified to be what you need.
