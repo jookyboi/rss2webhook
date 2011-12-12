@@ -153,6 +153,28 @@ That's it! You should now have an instance of rss2webhook sending RSS articles t
 
 ## Configuration Examples
 
-Below are a few configurations for popular web services that support webhooks.
+Below are a few typical configurations.
+
+### RSS over no-auth HTTP, simple POST to webhook
+
+```yaml
+  -
+    connection: http://www.example.com/rss.xml
+    webhook: http://www.chatroom.com/webhook  # POSTs article => { link => ... }
+```
+
+### RSS over basic-auth HTTP, simple POST to webhook
+
+```yaml
+  -
+    connection:
+      host: basicauth.example.com
+      ssl: false
+      resource: /feeds/daily
+      auth:
+        username: basicauth_user
+        password: my_password
+    webhook: http://www.chatroom.com/webhook
+```
 
 ## Advanced Usage
