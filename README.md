@@ -169,12 +169,33 @@ Below are a few typical configurations.
   -
     connection:
       host: basicauth.example.com
-      ssl: false
+      ssl: false  # for HTTPs, just set this to true
       resource: /feeds/daily
       auth:
         username: basicauth_user
         password: my_password
     webhook: http://www.chatroom.com/webhook
+```
+
+### Custom webhook data
+
+```yaml
+  -
+    connection: http://www.example.com/rss.xml
+    webhook: http://www.chatroom.com/webhook_custom
+    output:  # POSTs message => { summary => ..., content => ... }
+      message:
+        summary: |title|
+        content: Full content - |description|
+```
+
+### Send data to webhook with GET request
+
+```yaml
+  -
+    connection: http://www.example.com/rss.xml
+    webhook: http://www.chatroom.com/webhook_get
+    type: get
 ```
 
 ## Advanced Usage
