@@ -76,7 +76,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     output_settings = nil
 
     if rss_feed['output']
-      output_settings = rss_feed['output'].clone # don't change the original
+      Marshal.load(Marshal.dump(rss_feed['output'])) # don't change the original
     end
 
     output_hash = Hash.new
