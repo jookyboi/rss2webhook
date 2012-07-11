@@ -93,9 +93,9 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     request_type = rss_feed['type']
     begin
       if request_type && request_type == 'get'
-        RestClient.get webhook, :params => output_hash
+        RestClient.get webhook, output_hash
       else
-        RestClient.post webhook, :params => output_hash
+        RestClient.post webhook, output_hash
       end
     rescue => e
       e.response
