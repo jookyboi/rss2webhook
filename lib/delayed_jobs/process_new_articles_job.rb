@@ -24,7 +24,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     first_fetch = !feed_articles.any?
 
     # insert unique items into mongo
-    feed.items.each do |item|
+    feed.items.reverse.each do |item|
       item_hash = Hash.from_xml(item.to_s)['item']
       item_hash['feed_url'] = feed.channel.link
 
@@ -76,7 +76,7 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     output_settings = nil
 
     if rss_feed['output']
-      output_settings = rss_feed['output'].clone # don't change the original
+      output_settings = Marshal.load(Marshal.dump(rss_feed['output'])) # don't change the original
     end
 
     output_hash = Hash.new
@@ -93,9 +93,9 @@ class ProcessNewArticlesJob < Struct.new(:rss_feed, :settings)
     request_type = rss_feed['type']
     begin
       if request_type && request_type == 'get'
-        RestClient.get webhook, :params => output_hash
+        RestClient.get webhook, output_hash
       else
-        RestClient.post webhook, :params => output_hash
+        RestClient.post webhook, output_hash
       end
     rescue => e
       e.response
